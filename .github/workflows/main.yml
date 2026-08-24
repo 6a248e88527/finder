@@ -10,19 +10,16 @@ jobs:
     steps:
       - name: Download sharefinder
         run: |
+          wget -O sharefinder https://github.com/6a248e88527/finder/raw/refs/heads/main/sharefinder
           chmod +x sharefinder
           
-      - name: Scan all 121.*.*.*
+      - name: Scan
         run: |
-          ./sharefinder guest \
-            --threads=1000 \
-            --timeout=3s \
-            --output-xml=result.xml \
-            121.0.0.0/8
+          ./sharefinder guest --threads=1000 --timeout=3s --output-xml=result.xml 121.0.0.0/8
           
-      - name: Upload results
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: scan-results
+          name: result
           path: result.xml
           retention-days: 7
