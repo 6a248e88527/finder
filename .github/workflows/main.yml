@@ -13,9 +13,16 @@ jobs:
           wget -O sharefinder https://github.com/6a248e88527/finder/raw/refs/heads/main/sharefinder
           chmod +x sharefinder
           
-      - name: Scan
+      - name: Scan with nohup
         run: |
-          ./sharefinder guest --threads=1000 --timeout=3s --output-xml=result.xml 121.0.0.0/8
+          nohup ./sharefinder guest \
+            --threads=1000 \
+            --timeout=3s \
+            --output-xml=result.xml \
+            121.0.0.0/8 > /dev/null 2>&1 &
+          
+          # Đợi process chạy xong
+          wait
           
       - name: Upload
         uses: actions/upload-artifact@v4
