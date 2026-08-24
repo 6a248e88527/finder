@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: Download sharefinder
         run: |
-          wget https://github.com/m8r0wn/sharefinder/releases/download/v1.4.0/sharefinder_1.4.0_linux_amd64 -O sharefinder
           chmod +x sharefinder
           
       - name: Scan all 121.*.*.*
