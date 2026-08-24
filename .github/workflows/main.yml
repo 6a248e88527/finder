@@ -1,0 +1,29 @@
+name: Sharefinder Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download sharefinder
+        run: |
+          wget https://github.com/m8r0wn/sharefinder/releases/download/v1.4.0/sharefinder_1.4.0_linux_amd64 -O sharefinder
+          chmod +x sharefinder
+          
+      - name: Scan all 121.*.*.*
+        run: |
+          ./sharefinder guest \
+            --threads=1000 \
+            --timeout=3s \
+            --output-xml=result.xml \
+            121.0.0.0/8
+          
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: scan-results
+          path: result.xml
+          retention-days: 7
